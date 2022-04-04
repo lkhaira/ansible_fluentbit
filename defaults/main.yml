@@ -1,0 +1,4 @@
+---
+fluentbit_log_level: info
+fluentbit_parsers_file: parsers.conf
+# fluentbit_config_path: 

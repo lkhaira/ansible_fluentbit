@@ -1,0 +1,6 @@
+{% for parser in fluentbit_parsers %}
+[PARSER]
+{% for key, value in parser.items() %}
+    {{key}} {{value}}
+{% endfor %}
+{% endfor %}

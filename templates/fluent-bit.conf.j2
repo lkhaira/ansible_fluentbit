@@ -1,0 +1,24 @@
+[SERVICE]
+    Log_Level       {{ fluentbit_log_level }}
+    Parsers_File    {{ fluentbit_parsers_file }}
+
+{% for input in fluentbit_inputs %}
+[INPUT]
+{% for key, value in input.items() %}
+    {{key}} {{value}}
+{% endfor %}
+{% endfor %}
+
+{% for filters in fluentbit_filters %}
+[FILTER]
+{% for key, value in filters.items() %}
+    {{key}} {{value}}
+{% endfor %}
+{% endfor %}
+
+{% for output in fluentbit_outputs %}
+[OUTPUT]
+{% for key, value in output.items() %}
+    {{key}} {{value}}
+{% endfor %}
+{% endfor %}

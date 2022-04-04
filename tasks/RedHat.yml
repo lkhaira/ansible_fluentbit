@@ -1,0 +1,15 @@
+---
+- name: Configure repository
+  template:
+    src: fluentbit.repo.j2
+    dest: /etc/yum.repos.d/fluentbit.repo
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Install Fluent bit
+  yum:
+    name: fluent-bit
+    state: present
+  notify: 
+    - Restart

@@ -1,0 +1,3 @@
+---
+- name: Install Flient bit
+  include_tasks: "{{ ansible_os_family }}.yml"

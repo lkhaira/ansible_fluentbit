@@ -1,0 +1,23 @@
+galaxy_info:
+  author: Artem Shestakov
+  role_name: fluentbit
+  namespace: artem_shestakov
+  description: Ansible role to install Fluent bit https://fluentbit.io/
+
+  license: license (BSD, MIT)
+
+  min_ansible_version: "2.1"
+
+  platforms:
+    # - name: Ubuntu
+    #   versions:
+    #     - focal
+    - name: EL
+      versions:
+        - "8"
+
+  galaxy_tags:
+    - fluentbit
+    - logs
+
+dependencies: []

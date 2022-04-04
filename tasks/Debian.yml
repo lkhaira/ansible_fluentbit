@@ -1,0 +1,26 @@
+---
+- name: Install requrements
+  apt:
+    name: 
+      - gpg-agent
+      - apt-transport-https
+      - ca-certificates
+    update_cache: yes
+    state: present
+
+- name: Add an Apt signing key
+  apt_key:
+    url: https://packages.fluentbit.io/fluentbit.key
+    state: present
+
+- name: Add Fluent bit repository
+  apt_repository:
+    repo: "deb https://packages.fluentbit.io/debian/{{ ansible_distribution_release }} {{ ansible_distribution_release }} main"
+    state: present
+
+- name: Update repositories cache and install Fluent bit package
+  apt:
+    name: fluent-bit
+    update_cache: yes
+    state: present
+  notify: "Restart"
