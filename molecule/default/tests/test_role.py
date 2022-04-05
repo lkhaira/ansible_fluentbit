@@ -15,7 +15,7 @@ def test_check_repofile(host):
     if host.system_info.distribution == 'centos':
         repofile = host.file("/etc/yum.repos.d/fluentbit.repo")
     elif host.system_info.distribution == 'ubuntu':
-        repofile = host.file("/etc/apt/sources.list.d/packages_fluentbit_io_ubuntu_focal.list")
+        repofile = host.file(f"/etc/apt/sources.list.d/packages_fluentbit_io_ubuntu_{host.system_info.codename}.list")
     assert repofile.exists
     assert repofile.is_file
     assert repofile.user == 'root'
