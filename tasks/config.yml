@@ -1,0 +1,12 @@
+---
+- name: Create fluent-bit.conf file
+  template:
+    src: "{{ item }}"
+    dest: "/etc/fluent-bit/{{ item[:-3] }}"
+    owner: root
+    group: root
+    mode: '0644'
+  with_items:
+    - fluent-bit.conf.j2
+    - parsers.conf.j2
+  notify: Restart

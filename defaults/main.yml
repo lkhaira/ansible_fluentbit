@@ -1,4 +1,11 @@
 ---
 fluentbit_log_level: info
-fluentbit_parsers_file: parsers.conf
-# fluentbit_config_path: 
+fluentbit_config_path: "/etc/fluent-bit/"
+
+fluentbit_inputs:
+  - Name: forward
+    Listen: 0.0.0.0
+    Port: 24224
+fluentbit_outputs:
+  - Name: srdout
+    Match: '*'

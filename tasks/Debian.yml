@@ -3,8 +3,6 @@
   apt:
     name: 
       - gpg-agent
-      - apt-transport-https
-      - ca-certificates
     update_cache: yes
     state: present
 
@@ -12,10 +10,11 @@
   apt_key:
     url: https://packages.fluentbit.io/fluentbit.key
     state: present
+    keyring: /usr/share/keyrings/fluentbit-keyring.gpg
 
 - name: Add Fluent bit repository
   apt_repository:
-    repo: "deb https://packages.fluentbit.io/debian/{{ ansible_distribution_release }} {{ ansible_distribution_release }} main"
+    repo: "deb [signed-by=/usr/share/keyrings/fluentbit-keyring.gpg] https://packages.fluentbit.io/{{ ansible_distribution|lower }}/{{ ansible_distribution_release }} {{ ansible_distribution_release }} main"
     state: present
 
 - name: Update repositories cache and install Fluent bit package
