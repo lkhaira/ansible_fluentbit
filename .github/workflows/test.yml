@@ -1,10 +1,11 @@
 ---
-name: CI
+name: Test
 'on':
   pull_request:
   push:
-    branches:
+    branches-ignore:
       - main
+      - master
 
 jobs:
   lint:
@@ -47,7 +48,7 @@ jobs:
           python-version: '3.x'
 
       - name: Install test dependencies.
-        run: pip3 install ansible molecule[docker] yamllint ansible-lint
+        run: pip3 install ansible molecule[docker] yamllint ansible-lint pytest testinfra
 
       - name: Run Molecule tests.
         run: molecule test
