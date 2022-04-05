@@ -1,6 +1,16 @@
 ---
+fluentbit_flush: 5
+fluentbit_grace: 5
+fluentbit_daemon: "off"
+fluentbit_dns_mode: UDP
 fluentbit_log_level: info
-fluentbit_config_path: "/etc/fluent-bit/"
+fluentbit_http_server: "off"
+fluentbit_http_listen: "0.0.0.0"
+fluentbit_http_port: 2020
+fluentbit_coro_stack_size: 24576
+fluentbit_scheduler_cap: 2000
+fluentbit_scheduler_base: 5
+fluentbit_config_path: "/etc/fluent-bit"
 
 fluentbit_inputs:
   - Name: forward

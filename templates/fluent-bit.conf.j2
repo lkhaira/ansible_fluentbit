@@ -1,6 +1,21 @@
 [SERVICE]
-    Log_Level       {{ fluentbit_log_level }}
-    Parsers_File    parsers.conf
+    flush   {{ fluentbit_flush }}
+    grace   {{ fluentbit_grace }}
+    daemon {{ fluentbit_daemon }}
+    dns.mode {{ fluentbit_dns_mode }}
+{% if fluentbit_log_file is defined %}
+    log_file {{ fluentbit_log_file }}
+{% endif %}
+{% if fluentbit_http_server|lower == 'on' %}
+    http_server {{ fluentbit_http_server }}
+    http_listen {{ fluentbit_http_listen }}
+    http_port {{ fluentbit_http_port }}
+{% endif %}
+    coro_stack_size {{ fluentbit_coro_stack_size }}
+    scheduler.cap {{ fluentbit_scheduler_cap }}
+    scheduler.base {{ fluentbit_scheduler_base }}
+    log_Level       {{ fluentbit_log_level }}
+    parsers_file    parsers.conf
 
 {% for input in fluentbit_inputs %}
 [INPUT]

@@ -2,7 +2,7 @@
 - name: Create fluent-bit.conf file
   template:
     src: "{{ item }}"
-    dest: "/etc/fluent-bit/{{ item[:-3] }}"
+    dest: "{{ fluentbit_config_path }}/{{ item[:-3] }}"
     owner: root
     group: root
     mode: '0644'
