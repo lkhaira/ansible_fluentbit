@@ -32,3 +32,10 @@ def test_config_file(host):
     assert config.user == 'root'
     assert config.group == 'root'
     assert config.mode == 0o644
+
+def test_service(host):
+    pass
+
+def test_socket(host):
+    assert host.socket("tcp://0.0.0.0:24224").is_listening
+    assert host.socket("tcp://0.0.0.0:2020").is_listening

@@ -17,5 +17,5 @@ fluentbit_inputs:
     Listen: 0.0.0.0
     Port: 24224
 fluentbit_outputs:
-  - Name: srdout
+  - Name: stdout
     Match: '*'

@@ -21,21 +21,13 @@ fluentbit_scheduler_base | Set a base of exponential backoff. The property is su
 fluentbit_inputs | An input section defines a source (related to an input plugin) | Name: forward<br>Listen: 0.0.0.0<br>Port: 24224
 fluentbit_outputs | The outputs section specify a destination that certain records should follow after a Tag match | Name: srdout<br>Match: '*'
 
-Example Playbook
-----------------
+# Example Playbook
+```
+example here
+```
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
-
-License
--------
-
+## License
 BSD
 
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+## Author Information
+Artem Shestakov artem.s.shestakov@yandex.ru

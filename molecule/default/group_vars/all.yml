@@ -1,0 +1,5 @@
+---
+fluentbit_http_server: "on"
+fluentbit_http_listen: "0.0.0.0"
+fluentbit_http_port: 2020
+fluentbit_log_file: /var/log/fluent-bit.log
