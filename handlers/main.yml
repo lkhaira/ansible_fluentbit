@@ -2,4 +2,5 @@
 - name: Restart
   systemd:
     name: fluent-bit
+    enabled: true
     state: restarted

@@ -4,6 +4,7 @@ plugins:
       "releaseRules": [
         {"type": "fix", "release": "patch"},
         {"type": "feat", "release": "minor"},
+        {"scope": "README", "release": false},
       ]
     }]
   - "@semantic-release/release-notes-generator"
