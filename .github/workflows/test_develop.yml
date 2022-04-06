@@ -1,11 +1,11 @@
 ---
-name: Test
+name: Test_before_merge
 'on':
   pull_request:
-  push:
-    branches-ignore:
-      - main
-      - master
+    branches:
+      - "develop"
+      - "main"
+      - "master"
 
 jobs:
   lint:
