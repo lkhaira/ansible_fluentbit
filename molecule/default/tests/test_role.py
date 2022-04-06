@@ -34,7 +34,9 @@ def test_config_file(host):
     assert config.mode == 0o644
 
 def test_service(host):
-    pass
+    fluent_bit = host.service("fluent-bit")
+    assert fluent_bit.is_running
+    assert fluent_bit.is_enabled
 
 def test_socket(host):
     assert host.socket("tcp://0.0.0.0:24224").is_listening
