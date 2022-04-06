@@ -3,11 +3,11 @@ name: Build
 on:
   push:
     branches:
-      - develop
-      - main
-      - master
+      - "master"
+      - "main"
+      - "develop"
 
-jobs:  
+jobs:
   build:
     name: build
     runs-on: ubuntu-latest
