@@ -6,7 +6,7 @@
 {% if fluentbit_log_file is defined %}
     log_file {{ fluentbit_log_file }}
 {% endif %}
-{% if fluentbit_http_server|lower == 'on' %}
+{% if fluentbit_http_server|lower == 'on' or fluentbit_http_server %}
     http_server {{ fluentbit_http_server }}
     http_listen {{ fluentbit_http_listen }}
     http_port {{ fluentbit_http_port }}
