@@ -1,6 +1,10 @@
 ---
+- name: Debug
+  debug:
+    msg: "{{fluentbit_http_server}}"
+    
 - name: Install Flient bit
   include_tasks: "{{ ansible_os_family }}.yml"
 
-- name: Install Flient bit
+- name: Generate Flient bit config
   include_tasks: config.yml
