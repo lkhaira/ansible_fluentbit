@@ -1,0 +1,5 @@
+{
+    "yaml.schemas": {
+        "https://json.schemastore.org/yamllint.json": "file:///Volumes/Data/IaC/ansible_fluentbit/.github/workflows/build.yml"
+    }
+}
