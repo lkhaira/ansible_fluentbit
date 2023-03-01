@@ -1,3 +1,18 @@
+{% if fluentbit_multiline_parsers is defined %}
+{% for parser in fluentbit_multiline_parsers %}
+[MULTILINE_PARSER]
+{% for key, value in parser.items() %}
+{% if key == 'rules' %}
+{% for rule in value %}
+    rule    "{{ rule.state_name }}"    "{{ rule.regex_pattern }}"    "{{ rule.next_state }}"
+{% endfor %}
+{% else %}
+    {{key}} {{value}}
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% endif %}
+
 {% if fluentbit_parsers is defined %}
 {% for parser in fluentbit_parsers %}
 [PARSER]
