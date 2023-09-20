@@ -35,6 +35,7 @@ jobs:
       matrix:
         distro:
           - geerlingguy/docker-centos8-ansible:latest
+          - geerlingguy/docker-ubuntu2204-ansible:latest
           - geerlingguy/docker-ubuntu2004-ansible:latest
           - geerlingguy/docker-ubuntu1804-ansible:latest
 
