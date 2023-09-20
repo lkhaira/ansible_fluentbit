@@ -36,7 +36,7 @@ jobs:
         distro:
           - geerlingguy/docker-centos8-ansible:latest
           - geerlingguy/docker-ubuntu2004-ansible:latest
-          - geerlingguy/docker-ubuntu1804-ansible:latest
+          - geerlingguy/docker-ubuntu2204-ansible:latest
 
     steps:
       - name: Check out the codebase.
@@ -48,7 +48,7 @@ jobs:
           python-version: '3.x'
 
       - name: Install test dependencies.
-        run: pip3 install ansible molecule[docker] yamllint ansible-lint pytest testinfra
+        run: pip3 install ansible ansible-lint docker molecule-docker yamllint pytest pytest-testinfra
 
       - name: Run Molecule tests.
         run: molecule test
