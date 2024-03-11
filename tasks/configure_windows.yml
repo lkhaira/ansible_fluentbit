@@ -1,0 +1,65 @@
+---
+
+- name: "Windows | Create directory structure"
+  win_file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ fluentbit_win_install_dir }}"
+    - "{{ fluentbit_win_install_dir }}\fluent-bit-{{ fluentbit_agent_version }}"
+    - "{{ fluentbit_win_include }}"
+
+- name: "Windows | Check if file is already downloaded"
+  win_stat:
+    path: '{{ fluentbit_win_install_dir }}\fluent-bit-{{ fluentbit_agent_version }}_windows_amd64.zip'
+  register: file_info
+
+- name: "Windows | Download Fluent Bit Agent Zip file"
+  win_get_url:
+    url: https://fluentbit.io/releases/{{ fluentbit_agent_version }}/fluent-bit-windows-amd64-{{ fluentbit_agent_version }}.zip
+    dest: '{{ fluentbit_win_install_dir }}\fluent-bit-{{ fluentbit_agent_version }}_windows_amd64.zip'
+  when:
+    - not file_info.stat.exists
+
+- name: "Windows | Unzip file"
+  win_unzip:
+    src: '{{ fluentbit_win_install_dir }}\fluent-bit-{{ fluentbit_agent_version }}_windows_amd64.zip'
+    dest: "{{ fluentbit_win_install_dir }}"
+    creates: '{{ fluentbit_win_install_dir }}\fluent-bit-{{ fluentbit_agent_version }}\fluent-bit.exe'
+
+- name: "Windows | Move extracted directory"
+  win_copy:
+    src: '{{ fluentbit_win_install_dir }}\fluent-bit-{{ fluentbit_agent_version }}\fluent-bit.exe'
+    dest: '{{ fluentbit_win_install_dir }}\bin\fluent-bit.exe'
+    remote_src: true
+
+- name: "Windows | Install Fluent Bit"
+  win_command: "{{ fluentbit_win_install_dir }}\bin\fluent-bit.exe"
+  args:
+    chdir: "{{ fluentbit_win_install_dir }}"
+
+- name: "Windows | Configure Fluent Bit"
+  win_template:
+    src: fluentbit.conf.j2
+    dest: '{{ fluentbit_win_install_dir }}\fluentbit.conf'
+
+- name: "Windows | Check if Fluent Bit service is already in place"
+  win_service:
+    name: fluentbit
+  register: service_result
+  failed_when: service_result is not defined
+
+- debug: msg={{ service_result }}
+
+- name: "Windows | Set service startup mode to auto and ensure it is started"
+  win_service:
+    name: fluentbit
+    start_mode: auto
+    state: started
+  when:
+    - service_result.exists
+
+- name: "Windows | Cleanup"
+  win_file:
+    path: '{{ fluentbit_win_install_dir }}\fluent-bit-{{ fluentbit_agent_version }}'
+    state: absent
