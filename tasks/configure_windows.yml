@@ -40,12 +40,12 @@
 
 - name: "Windows | Configure Fluent Bit"
   win_template:
-    src: fluentbit.conf.j2
-    dest: '{{ fluentbit_win_install_dir }}\fluentbit.conf'
+    src: fluent-bit.conf.j2
+    dest: '{{ fluentbit_win_install_dir }}\fluent-bit.conf'
 
 - name: "Windows | Check if Fluent Bit service is already in place"
   win_service:
-    name: fluentbit
+    name: fluent-bit
   register: service_result
   failed_when: service_result is not defined
 
@@ -53,7 +53,7 @@
 
 - name: "Windows | Set service startup mode to auto and ensure it is started"
   win_service:
-    name: fluentbit
+    name: fluent-bit
     start_mode: auto
     state: started
   when:
