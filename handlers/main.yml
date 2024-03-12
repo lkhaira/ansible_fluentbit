@@ -1,6 +1,17 @@
+
 ---
-- name: Restart
-  systemd:
-    name: fluent-bit
-    enabled: true
-    state: restarted
+- name: Restart Fluent Bit service on Windows
+  hosts: windows
+  tasks:
+    - name: Restart Fluent Bit service
+      win_service:
+        name: fluent-bit
+        state: restarted
+        start_mode: auto
+
+
+#- name: Restart
+ # systemd:
+  #  name: fluent-bit
+   # enabled: true
+    #state: restarted
