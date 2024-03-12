@@ -1,25 +1,56 @@
 ---
 dependency:
   name: galaxy
+
 driver:
-  name: docker
+  name: vagrant
+
 platforms:
   - name: instance
-    image: ${MOLECULE_DISTRO:-geerlingguy/docker-centos8-ansible:latest}
-    command: ${MOLECULE_DOCKER_COMMAND:-""}
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:rw
-    cgroupns_mode: host
-    privileged: true
-    pre_build_image: true
+    box: "StefanScherer/windows_2022"
+    communicator: "winrm"
+    instance_raw_config_args:
+      memory: 2048
+      cpus: 2
+      gui: false
+      check_guest_additions: false
+
 provisioner:
   name: ansible
+  lint:
+    name: ansible-lint
+  options:
+    verbosity: 2
+
 verifier:
   name: testinfra
   options:
-    connection: docker
-    v: 2
-lint: |
-  set -e
-  yamllint .
-  ansible-lint -v
+    connection: winrm
+    verbosity: 2
+    sudo: true
+
+
+#dependency:
+ # name: galaxy
+#driver:
+  #name: docker
+#platforms:
+ # - name: instance
+  #  image: ${MOLECULE_DISTRO:-geerlingguy/docker-centos8-ansible:latest}
+   # command: ${MOLECULE_DOCKER_COMMAND:-""}
+    #volumes:
+     # - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    #cgroupns_mode: host
+    #privileged: true
+    #pre_build_image: true
+#provisioner:
+ # name: ansible
+#verifier:
+ # name: testinfra
+  #options:
+   # connection: docker
+    #v: 2
+#lint: |
+ # set -e
+  #yamllint .
+  #ansible-lint -v
