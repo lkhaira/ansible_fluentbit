@@ -1,12 +1,28 @@
 ---
-- name: Create fluent-bit.conf file
-  template:
-    src: "{{ item }}"
-    dest: "{{ fluentbit_config_path }}/{{ item[:-3] }}"
-    owner: root
-    group: root
-    mode: '0644'
-  with_items:
-    - fluent-bit.conf.j2
-    - parsers.conf.j2
-  notify: Restart
+- name: "Create configuration files for Fluent Bit on Windows"
+  hosts: windows
+  tasks:
+    - name: "Create fluent-bit.conf.j2"
+      win_template:
+        src: fluent-bit.conf.j2
+        dest: "{{ fluentbit_install_dir }}\\Conf\\fluent-bit.conf"
+        backup: yes
+        force: yes
+
+    - name: "Copy parsers.conf.j2"
+      win_copy:
+        src: parsers.conf.j2
+        dest: "{{ fluentbit_install_dir }}\\Conf\\parsers.conf"
+
+
+#- name: Create fluent-bit.conf file
+ # template:
+   # src: "{{ item }}"
+    #dest: "{{ fluentbit_config_path }}/{{ item[:-3] }}"
+    #owner: root
+    #group: root
+    #mode: '0644'
+  #with_items:
+   # - fluent-bit.conf.j2
+    #- parsers.conf.j2
+  #notify: Restart
