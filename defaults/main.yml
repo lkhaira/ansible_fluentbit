@@ -17,9 +17,18 @@ fluentbit_inputs:
   - Name: forward
     Listen: 0.0.0.0
     Port: 24224
+  - Name: dummy
+    Dummy: {"message": "custom dummy"}
 fluentbit_outputs:
   - Name: stdout
     Match: '*'
+  - Name: loki
+    Match: *
+    Host: loki.telusvaa.com
+    Port: 3100
+    Labels job: windows-test
+    http_user: fluent
+    http_passwd: ubT89xyz
 
 #fluentbit_flush: 5
 #fluentbit_grace: 5
