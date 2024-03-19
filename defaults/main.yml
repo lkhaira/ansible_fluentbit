@@ -1,5 +1,4 @@
 ---
----
 fluentbit_flush: 5
 fluentbit_grace: 5
 fluentbit_daemon: "off"
@@ -12,6 +11,8 @@ fluentbit_coro_stack_size: 24576
 fluentbit_scheduler_cap: 2000
 fluentbit_scheduler_base: 5
 fluentbit_config_path: "{{ ansible_facts['programfiles'] }}\\Fluent Bit"
+fluentbit_win_install_dir: "C:\\Program Files"
+fluentbit_agent_version: "2.2.2"
 
 fluentbit_inputs:
   - Name: forward
@@ -23,12 +24,13 @@ fluentbit_outputs:
   - Name: stdout
     Match: '*'
   - Name: loki
-    Match: *
+    Match: '*'
     Host: loki.telusvaa.com
     Port: 3100
     Labels job: windows-test
     http_user: fluent
     http_passwd: ubT89xyz
+
 
 #fluentbit_flush: 5
 #fluentbit_grace: 5
