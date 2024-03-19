@@ -6,42 +6,40 @@
     state: directory
   with_items:
     - "{{ fluentbit_win_install_dir }}"
-    - "{{ fluentbit_win_install_dir }}\fluent-bit-{{ fluentbit_agent_version }}"
-    - "{{ fluentbit_win_include }}"
+    - "{{ fluentbit_win_install_dir }}\\fluent-bit-{{ fluentbit_agent_version }}"
 
 - name: "Windows | Check if file is already downloaded"
   win_stat:
-    path: '{{ fluentbit_win_install_dir }}\fluent-bit-{{ fluentbit_agent_version }}-win64.zip'
+    path: '{{ fluentbit_win_install_dir }}\\fluent-bit-{{ fluentbit_agent_version }}-win64.zip'
   register: file_info
 
 - name: "Windows | Download Fluent Bit Agent Zip file"
   win_get_url:
     url: https://packages.fluentbit.io/windows/fluent-bit-{{ fluentbit_agent_version }}-win64.zip
-    dest: '{{ fluentbit_win_install_dir }}\fluent-bit-{{ fluentbit_agent_version }}-win64.zip'
+    dest: '{{ fluentbit_win_install_dir }}\\fluent-bit-{{ fluentbit_agent_version }}-win64.zip'
   when:
     - not file_info.stat.exists
 
 - name: "Windows | Unzip file"
   win_unzip:
-    src: '{{ fluentbit_win_install_dir }}\fluent-bit-{{ fluentbit_agent_version }}-win64.zip'
+    src: '{{ fluentbit_win_install_dir }}\\fluent-bit-{{ fluentbit_agent_version }}-win64.zip'
     dest: "{{ fluentbit_win_install_dir }}"
-    creates: '{{ fluentbit_win_install_dir }}\fluent-bit-{{ fluentbit_agent_version }}\fluent-bit.exe'
+    creates: '{{ fluentbit_win_install_dir }}\\fluent-bit-{{ fluentbit_agent_version }}\\fluent-bit.exe'
 
-- name: "Windows | Move extracted directory"
-  win_copy:
-    src: '{{ fluentbit_win_install_dir }}\fluent-bit-{{ fluentbit_agent_version }}\fluent-bit.exe'
-    dest: '{{ fluentbit_win_install_dir }}\bin\fluent-bit.exe'
-    remote_src: true
+- name: "Windows | Rename extracted folder"
+  win_command: "Rename-Item -Path '{{ fluentbit_win_install_dir }}\\fluent-bit-{{ fluentbit_agent_version }}-win64' -NewName 'fluent-bit'"
+  become: yes
+  become_user: ansible
 
 - name: "Windows | Install Fluent Bit"
-  win_command: "{{ fluentbit_win_install_dir }}\bin\fluent-bit.exe"
+  win_command: "{{ fluentbit_win_install_dir }}\\fluent-bit\\bin\\fluent-bit.exe"
   args:
     chdir: "{{ fluentbit_win_install_dir }}"
 
 - name: "Windows | Configure Fluent Bit"
   win_template:
     src: fluent-bit.conf.j2
-    dest: '{{ fluentbit_win_install_dir }}\fluent-bit.conf'
+    dest: '{{ fluentbit_win_install_dir }}\\fluent-bit\\conf\\fluent-bit.conf'
 
 - name: "Windows | Check if Fluent Bit service is already in place"
   win_service:
@@ -59,7 +57,7 @@
   when:
     - service_result.exists
 
-- name: "Windows | Cleanup"
+- name: "Windows | Remove downloaded ZIP file"
   win_file:
-    path: '{{ fluentbit_win_install_dir }}\fluent-bit-{{ fluentbit_agent_version }}'
+    path: '{{ fluentbit_win_install_dir }}\\fluent-bit-{{ fluentbit_agent_version }}-win64.zip'
     state: absent
