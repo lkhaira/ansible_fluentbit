@@ -26,20 +26,21 @@
     dest: "{{ fluentbit_win_install_dir }}"
     creates: '{{ fluentbit_win_install_dir }}\\fluent-bit-{{ fluentbit_agent_version }}\\fluent-bit.exe'
 
-- name: "Windows | Rename extracted folder"
-  win_command: "Rename-Item -Path '{{ fluentbit_win_install_dir }}\\fluent-bit-{{ fluentbit_agent_version }}-win64' -NewName 'fluent-bit'"
-  become: yes
-  become_user: ansible
+- name: "Windows | Move extracted executable"
+  win_copy:
+    src: '{{ fluentbit_win_install_dir }}\\fluent-bit-{{ fluentbit_agent_version }}-win64\\'
+    dest: '{{ fluentbit_win_install_dir }}\\fluentbit'
+    remote_src: true
 
 - name: "Windows | Install Fluent Bit"
-  win_command: "{{ fluentbit_win_install_dir }}\\fluent-bit\\bin\\fluent-bit.exe"
+  win_command: "{{ fluentbit_win_install_dir }}\\fluentbit\\bin\\fluent-bit.exe"
   args:
     chdir: "{{ fluentbit_win_install_dir }}"
-
+  
 - name: "Windows | Configure Fluent Bit"
   win_template:
     src: fluent-bit.conf.j2
-    dest: '{{ fluentbit_win_install_dir }}\\fluent-bit\\conf\\fluent-bit.conf'
+    dest: '{{ fluentbit_win_install_dir }}\\fluentbit\\conf\\fluent-bit.conf'
 
 - name: "Windows | Check if Fluent Bit service is already in place"
   win_service:
